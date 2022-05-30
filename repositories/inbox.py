@@ -12,11 +12,6 @@ from repositories.base import BaseRepository
 class InboxRepository(BaseRepository):
     """Methods for Inbox Repository"""
 
-    async def get_all(self, limit: int = 100, skip: int = 0):
-        """Get all objects"""
-        query = inbox.select().limit(limit).offset(skip)
-        return await self.database.fetch_all(query=query)
-
     async def create(self, file_name_list):
         """Create Inbox"""
         values = []

@@ -60,17 +60,14 @@ cd green_test
 docker-compose up --build
 ~~~
 
-2. останавливаем docker
+2. Переходим в браузере на наш min.io
+Адрес появился в терминале (192.168.x.x:9001). Авторизуемся
+login - minioadmin, password- minioadmin
+Далее Identity -> Service Accounts -> Create service account
+Нажимаем Create. Записываем в файл .evn -> "ACCESS_KEY_MIN_IO=Access Key",
+"SECRET_KEY_MIN_IO=Secret Key" и SERVER_MIN_IO=192.168.x.x (тот самый адрес, который появился в терминале)
 
-~~~
-docker-compose down
-~~~
 
-3. В файле .env меняем переменную SERVER_MIN_IO на ваш 192.168.x.x (он будет в терминале, после создания сервера min.io)
-4. Запускаем docker
-~~~
-docker-compose up -d --build
-~~~
 Запуск тестов
 --------------------------------------
 ---

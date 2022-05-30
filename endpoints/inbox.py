@@ -5,17 +5,9 @@ from typing import List
 from fastapi import APIRouter, Depends, UploadFile, File
 from core.config import PHOTO_TMP
 from endpoints.depends import get_inbox_repository
-# from models.inbox import Inbox
 from repositories.inbox import InboxRepository
 
 router = APIRouter()
-
-
-# @router.get('/', response_model=List[Inbox])
-# async def read_inbox(
-#         limit=100, skip=0,
-#         inbox: InboxRepository = Depends(get_inbox_repository), ):
-#     return await inbox.get_all(limit, skip)
 
 
 @router.post('/')

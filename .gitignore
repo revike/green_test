@@ -8,4 +8,3 @@ media_tmp
 venv
 .env
 .pytest_cache
-tests

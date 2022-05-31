@@ -66,3 +66,10 @@ login - minioadmin, password- minioadmin
 Далее Identity -> Service Accounts -> Create service account
 Нажимаем Create. Записываем в файл evn_min_io.py -> "ACCESS_KEY_MIN_IO=Access Key",
 "SECRET_KEY_MIN_IO=Secret Key" и SERVER_MIN_IO=192.168.x.x (тот самый адрес, который появился в терминале). PORT_MIN_IO оставляем 9000
+
+Запуск тестоов с помощью docker-compose
+-------------------------------
+---
+~~~
+docker-compose exec web pytest tests/tests_app.py 
+~~~

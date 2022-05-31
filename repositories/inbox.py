@@ -2,10 +2,6 @@ import io
 import os
 import uuid
 from datetime import datetime
-
-from fastapi import HTTPException
-from starlette import status
-
 from core.config import PHOTO_TMP
 from db import inbox
 from min_io.minio_client import client
@@ -41,13 +37,14 @@ class InboxRepository(BaseRepository):
             os.remove(file)
         return values
 
-    async def get_data(self, code, limit, skip):
+    async def get_data(self, code, limit=None, skip=None):
         """Get list data for database"""
         query = inbox.select().limit(limit).offset(skip)
         if code:
             query = query.filter_by(code=code)
-        result = await self.database.fetch_all(query=query)
-        if result:
-            return result
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                            detail='Invalid page')
+        return await self.database.fetch_all(query=query)
+
+    async def delete(self, code):
+        """Delete list img for database and min.io"""
+        query = inbox.delete().where(inbox.c.code == code)
+        return await self.database.fetch_all(query=query)

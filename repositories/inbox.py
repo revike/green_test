@@ -59,7 +59,7 @@ class InboxRepository(BaseRepository):
                         search_bucket_name._bucket_name, obj.name)
                 client.remove_bucket(search_bucket_name._bucket_name)
             except S3Error:
-                client.remove_bucket(bucket.name)
+                pass
 
         query = inbox.delete().where(inbox.c.code == code)
         return await self.database.fetch_all(query=query)

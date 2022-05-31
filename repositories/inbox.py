@@ -2,6 +2,9 @@ import io
 import os
 import uuid
 from datetime import datetime
+
+from minio import S3Error
+
 from core.config import PHOTO_TMP
 from db import inbox
 from min_io.minio_client import client
@@ -44,7 +47,19 @@ class InboxRepository(BaseRepository):
             query = query.filter_by(code=code)
         return await self.database.fetch_all(query=query)
 
-    async def delete(self, code):
+    async def delete(self, code, inbox_list):
         """Delete list img for database and min.io"""
+        buckets_list = client.list_buckets()
+        for bucket in buckets_list:
+            try:
+                search_bucket_name = client.stat_object(
+                    bucket.name, inbox_list[0].name)
+                for obj in inbox_list:
+                    client.remove_object(
+                        search_bucket_name._bucket_name, obj.name)
+                client.remove_bucket(search_bucket_name._bucket_name)
+            except S3Error:
+                client.remove_bucket(bucket.name)
+
         query = inbox.delete().where(inbox.c.code == code)
         return await self.database.fetch_all(query=query)

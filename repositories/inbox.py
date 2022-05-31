@@ -50,11 +50,9 @@ class InboxRepository(BaseRepository):
                 os.remove(file)
         return values
 
-    async def get_data(self, code=None, limit=None, skip=None):
+    async def get_data(self, code):
         """Get list data for database"""
-        query = inbox.select().limit(limit).offset(skip)
-        if code:
-            query = query.filter_by(code=code)
+        query = inbox.select().filter_by(code=code)
         return await self.database.fetch_all(query=query)
 
     async def delete(self, code, inbox_list):

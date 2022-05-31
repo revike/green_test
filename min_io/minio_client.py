@@ -1,7 +1,9 @@
 import urllib3
 from minio import Minio
 
-from core.config import SERVER_MIN_IO, PORT_MIN_IO, ACCESS_KEY_MIN_IO, \
+# from core.config import SERVER_MIN_IO, PORT_MIN_IO, ACCESS_KEY_MIN_IO, \
+#     SECRET_KEY_MIN_IO
+from env_min_io import SERVER_MIN_IO, PORT_MIN_IO, ACCESS_KEY_MIN_IO, \
     SECRET_KEY_MIN_IO
 
 client = Minio(

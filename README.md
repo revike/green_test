@@ -64,13 +64,5 @@ docker-compose up --build
 Адрес появился в терминале (192.168.x.x:9001). Авторизуемся
 login - minioadmin, password- minioadmin
 Далее Identity -> Service Accounts -> Create service account
-Нажимаем Create. Записываем в файл .evn -> "ACCESS_KEY_MIN_IO=Access Key",
-"SECRET_KEY_MIN_IO=Secret Key" и SERVER_MIN_IO=192.168.x.x (тот самый адрес, который появился в терминале)
-
-
-Запуск тестов
---------------------------------------
----
-
-* Запуск тестов
-...
+Нажимаем Create. Записываем в файл evn_min_io.py -> "ACCESS_KEY_MIN_IO=Access Key",
+"SECRET_KEY_MIN_IO=Secret Key" и SERVER_MIN_IO=192.168.x.x (тот самый адрес, который появился в терминале). PORT_MIN_IO оставляем 9000

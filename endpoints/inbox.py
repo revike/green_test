@@ -7,12 +7,13 @@ from starlette import status
 
 from core.config import PHOTO_TMP
 from endpoints.depends import get_inbox_repository
+from models.inbox import Inbox
 from repositories.inbox import InboxRepository
 
 router = APIRouter()
 
 
-@router.post('/')
+@router.post('/', response_model=List[Inbox])
 async def create_inbox(
         files: List[UploadFile] = File(description='Upload files.jpg',
                                        max_items=15),
@@ -40,14 +41,22 @@ async def create_inbox(
     return await inbox.create(file_name_list=file_name_list)
 
 
-@router.get('/')
-async def get_inbox(code: str = '', limit: int = None, skip: int = 0,
+@router.get('/{code}', response_model=List[Inbox])
+async def get_inbox(code: str = '',
                     inbox: InboxRepository = Depends(get_inbox_repository)):
     """Get inbox"""
-    return await inbox.get_data(code, limit, skip)
+    return await inbox.get_data(code)
 
 
-@router.delete('/')
+@router.get('/', response_model=List[Inbox])
+async def get_inbox_all(
+        limit: int = None, skip: int = 0,
+        inbox: InboxRepository = Depends(get_inbox_repository)):
+    """Get inbox all"""
+    return await inbox.get_data(limit, skip)
+
+
+@router.delete('/{code}')
 async def delete_inbox(code: str,
                        inbox: InboxRepository = Depends(get_inbox_repository)):
     """Delete inbox"""

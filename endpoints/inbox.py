@@ -51,9 +51,9 @@ async def get_inbox(code: str = '', limit: int = None, skip: int = 0,
 async def delete_inbox(code: str,
                        inbox: InboxRepository = Depends(get_inbox_repository)):
     """Delete inbox"""
-    in_box = await inbox.get_data(code=code)
-    if not in_box:
+    inbox_list = await inbox.get_data(code=code)
+    if not inbox_list:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail='Invalid page')
-    await inbox.delete(code=code)
+    await inbox.delete(code=code, inbox_list=inbox_list)
     return {'status': True}

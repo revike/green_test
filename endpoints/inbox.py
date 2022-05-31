@@ -35,3 +35,9 @@ async def create_inbox(
             obj.write(content)
             file_name_list.append(file_name)
     return await inbox.create(file_name_list=file_name_list)
+
+
+@router.get('/')
+async def get_inbox(code: str = '', limit: int = None, skip:int = None,
+                    inbox: InboxRepository = Depends(get_inbox_repository)):
+    return await inbox.get_data(code, limit, skip)

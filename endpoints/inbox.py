@@ -13,7 +13,7 @@ from repositories.inbox import InboxRepository
 router = APIRouter()
 
 
-@router.post('/', response_model=List[Inbox])
+@router.post('/')
 async def create_inbox(
         files: List[UploadFile] = File(description='Upload files.jpg',
                                        max_items=15),
@@ -41,22 +41,18 @@ async def create_inbox(
     return await inbox.create(file_name_list=file_name_list)
 
 
-@router.get('/{code}', response_model=List[Inbox])
-async def get_inbox(code: str = '',
+@router.get('/{code}/', response_model=List[Inbox])
+async def get_inbox(code: str,
                     inbox: InboxRepository = Depends(get_inbox_repository)):
     """Get inbox"""
-    return await inbox.get_data(code)
+    result = await inbox.get_data(code)
+    if not result:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail='Invalid page')
+    return result
 
 
-@router.get('/', response_model=List[Inbox])
-async def get_inbox_all(
-        limit: int = None, skip: int = 0,
-        inbox: InboxRepository = Depends(get_inbox_repository)):
-    """Get inbox all"""
-    return await inbox.get_data(limit, skip)
-
-
-@router.delete('/{code}')
+@router.delete('/{code}/')
 async def delete_inbox(code: str,
                        inbox: InboxRepository = Depends(get_inbox_repository)):
     """Delete inbox"""

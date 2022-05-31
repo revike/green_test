@@ -9,9 +9,11 @@ services:
       - .env
     ports:
       - "5432:5432"
+    restart: always
 
   minio:
     image: quay.io/minio/minio:RELEASE.2022-05-26T05-48-41Z
+    container_name: minio
     volumes:
       -  minio_data:/var/lib/minio/data
     expose:
@@ -19,7 +21,27 @@ services:
       - "9001"
     env_file:
       - .env
+    restart: always
     command: minio server --console-address ":9001" /data/minio/
+    depends_on:
+      - web
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: green_test
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    command: uvicorn main:app --port 8000 --host 0.0.0.0 --reload
+
 
 volumes:
   pg_data:
